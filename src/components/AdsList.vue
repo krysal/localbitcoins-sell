@@ -121,6 +121,7 @@ import axios from "axios";
 import Spinner from "./Spinner.vue";
 import Multiselect from "vue-multiselect";
 
+const CORS_SERVER = process.env.VUE_APP_CORS_SERVER;
 const MINIMUM_AMOUNT_TO_SELL = 70000;
 
 export default {
@@ -273,7 +274,6 @@ const requestAdsList = async () => {
   let keepGoing = true;
   let url = "https://localbitcoins.com/sell-bitcoins-online/ves/.json";
   while (keepGoing) {
-    // console.log("Requesting", url);
     let response = await requestPage(url);
     await records.push(...response.data.ad_list);
     url = await response.pagination.next;
@@ -285,9 +285,7 @@ const requestAdsList = async () => {
 };
 
 const requestPage = async url => {
-  const rproxy = "https://cors-anywhere.herokuapp.com/";
-  let payload = await axios.get(rproxy + url).then(resp => resp.data);
-  // console.log(payload);
+  let payload = await axios.get(CORS_SERVER + url).then(resp => resp.data);
   return payload;
 };
 </script>
