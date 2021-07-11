@@ -20,6 +20,7 @@
 </template>
 <script>
 import axios from "axios";
+const CORS_SERVER = process.env.VUE_APP_CORS_SERVER;
 
 export default {
   data() {
@@ -29,9 +30,9 @@ export default {
     };
   },
   mounted() {
-    const rproxy = "https://cors-anywhere.herokuapp.com/";
+    let url = CORS_SERVER + "https://www.bitven.com/assets/js/rates.js";
     axios
-      .get(rproxy + "https://www.bitven.com/assets/js/rates.js")
+      .get(url)
       .then(resp => {
         this.dolartoday = parseFloat(resp.data.USD_TO_BSF_RATE).toFixed(2);
         this.btc_price = parseFloat(resp.data.BTC_TO_USD_RATE).toFixed(2);
